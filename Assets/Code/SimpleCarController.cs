@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,47 +12,62 @@ public class AxleInfo {
 }
      
 public class SimpleCarController : MonoBehaviour {
-    public List<AxleInfo> axleInfos; 
+    public List<AxleInfo> axleInfos;
     public float maxMotorTorque;
     public float maxSteeringAngle;
-     
-    // finds the corresponding visual wheel
-    // correctly applies the transform
-    
-    /*
-    public void ApplyLocalPositionToVisuals(WheelCollider collider)
+
+    private Vector3 initialPos;
+    private Quaternion initialRot;
+
+    private InputSystem_Actions inputActions;
+
+    private void Awake()
     {
-        if (collider.transform.childCount == 0) {
-            return;
-        }
-     
-        Transform visualWheel = collider.transform.GetChild(0);
-     
-        Vector3 position;
-        Quaternion rotation;
-        collider.GetWorldPose(out position, out rotation);
-     
-        visualWheel.transform.position = position;
-        visualWheel.transform.rotation = rotation;
+        inputActions = new InputSystem_Actions();
+        initialPos = transform.position;
+        initialRot = transform.rotation;
     }
-    */
-    
-    public void FixedUpdate()
+
+    private void OnEnable()
     {
-        float motor = maxMotorTorque * Input.GetAxis("Vertical");
-        float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
-     
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+    
+    private void FixedUpdate()
+    {
+        float forward = inputActions.Car.Forward.ReadValue<float>();
+        float backward = inputActions.Car.Backward.ReadValue<float>();
+        float throttle = forward - backward;
+        float motorTorque = throttle * maxMotorTorque;
+
+        Vector2 steeringInput = inputActions.Car.Steering.ReadValue<Vector2>();
+        float steering = steeringInput.x * maxSteeringAngle;
+
+        if(inputActions.Car.Recover.triggered)
+        {
+            Recover();
+        }
+
         foreach (AxleInfo axleInfo in axleInfos) {
             if (axleInfo.steering) {
                 axleInfo.leftWheel.steerAngle = steering;
                 axleInfo.rightWheel.steerAngle = steering;
             }
             if (axleInfo.motor) {
-                axleInfo.leftWheel.motorTorque = motor;
-                axleInfo.rightWheel.motorTorque = motor;
+                axleInfo.leftWheel.motorTorque = motorTorque;
+                axleInfo.rightWheel.motorTorque = motorTorque;
             }
-            //ApplyLocalPositionToVisuals(axleInfo.leftWheel);
-            //ApplyLocalPositionToVisuals(axleInfo.rightWheel);
         }
+    }
+
+    private void Recover()
+    {
+        transform.position = initialPos; 
+        transform.rotation = initialRot; 
     }
 }

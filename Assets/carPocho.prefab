@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 7871790931279733703}
   - component: {fileID: 3907316232413892083}
   - component: {fileID: 2517422812027319412}
+  - component: {fileID: 2858777643492403137}
   m_Layer: 0
   m_Name: carPocho
   m_TagString: Untagged
@@ -372,8 +373,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.9570538, z: 2.4333773}
-  m_Center: {x: 0, y: 0.5128307, z: -0.028656483}
+  m_Size: {x: 1.5, y: 1, z: 2.5}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &2517422812027319412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -401,6 +402,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2858777643492403137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710620817570099532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440d7119ab5d491387919c5e4dd2cd02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleCarController
+  axleInfos:
+  - leftWheel: {fileID: 7426177353597261116}
+    rightWheel: {fileID: 3726065269466377735}
+    motor: 0
+    steering: 1
+  - leftWheel: {fileID: 6564053857545889346}
+    rightWheel: {fileID: 4342881015008382473}
+    motor: 1
+    steering: 0
+  maxMotorTorque: 400
+  maxSteeringAngle: 30
 --- !u!1 &3330464588683234217
 GameObject:
   m_ObjectHideFlags: 0
