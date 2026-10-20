@@ -65,7 +65,7 @@ public class SimpleCarController : MonoBehaviour {
         }
     }
 
-    private void Recover()
+    public void Recover()
     {
         transform.position = initialPos; 
         transform.rotation = initialRot; 
