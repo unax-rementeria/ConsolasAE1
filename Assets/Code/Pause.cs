@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor;
 
 
 
@@ -28,6 +29,14 @@ public class Pause : MonoBehaviour
     private void Update()
     {
         if (inputActions.Car.Pause.triggered) // COMO CONIO HAGO PARA QUE DETECTE LA DESCONEXION DEL MANDO????? (ToT) 
+        {
+            TogglePause();
+        }
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus && !isPaused) 
         {
             TogglePause();
         }

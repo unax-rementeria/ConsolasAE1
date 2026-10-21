@@ -8,7 +8,7 @@ public class FirstSelect : MonoBehaviour
     public List<Button> listButton;
 
 
-    void FixedUpdate()
+    void Update()
     {
         for (int i = 0; i < listButton.Count; i++)
         {
@@ -25,13 +25,9 @@ public class FirstSelect : MonoBehaviour
 
     }
 
-    void Start()
+    void OnEnable()
     {
         //listButton[0] = GetComponent<Button>();
-        listButton[0].Select();
-    }
-    void deselected()
-    {
         listButton[0].Select();
     }
 }
